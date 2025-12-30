@@ -1,37 +1,96 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { APITester } from "./APITester";
+import { useState } from "react";
+import { ConfigForm } from "./components/ConfigForm";
+import { Reglement } from "./components/Reglement";
+import { ScrollArea } from "./components/ui/scroll-area";
+import { Button } from "./components/ui/button";
+import { defaultConfig, type ReglementConfig } from "./types/config";
 import "./index.css";
 
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
-
 export function App() {
+  const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleExport = () => {
+    const json = JSON.stringify(config, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `reglement-${config.event.name || "config"}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const text = await file.text();
+        try {
+          const imported = JSON.parse(text);
+          setConfig({ ...defaultConfig, ...imported });
+        } catch {
+          alert("Ongeldig JSON bestand");
+        }
+      }
+    };
+    input.click();
+  };
+
   return (
-    <div className="container mx-auto p-8 text-center relative z-10">
-      <div className="flex justify-center items-center gap-8 mb-8">
-        <img
-          src={logo}
-          alt="Bun Logo"
-          className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#646cffaa] scale-120"
-        />
-        <img
-          src={reactLogo}
-          alt="React Logo"
-          className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#61dafbaa] [animation:spin_20s_linear_infinite]"
-        />
+    <div className="h-screen flex flex-col">
+      {/* Header */}
+      <header className="border-b bg-background px-4 py-3 flex items-center justify-between print:hidden">
+        <h1 className="text-xl font-bold">NRF Reglement Generator</h1>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={handleImport}>
+            Importeren
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleExport}>
+            Exporteren
+          </Button>
+          <Button size="sm" onClick={handlePrint}>
+            Afdrukken
+          </Button>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left pane - Config Form */}
+        <div className="w-[400px] border-r bg-muted/30 print:hidden">
+          <ScrollArea className="h-full">
+            <ConfigForm config={config} onChange={setConfig} />
+          </ScrollArea>
+        </div>
+
+        {/* Right pane - Document Preview */}
+        <div className="flex-1 bg-gray-100 print:bg-white">
+          <ScrollArea className="h-full print:h-auto">
+            <div className="p-8 print:p-0">
+              <Reglement config={config} />
+            </div>
+          </ScrollArea>
+        </div>
       </div>
-      <Card>
-        <CardHeader className="gap-4">
-          <CardTitle className="text-3xl font-bold">Bun + React</CardTitle>
-          <CardDescription>
-            Edit <code className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono">src/App.tsx</code> and save to
-            test HMR
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <APITester />
-        </CardContent>
-      </Card>
+
+      {/* Print styles */}
+      <style>{`
+        @media print {
+          body {
+            background: white !important;
+          }
+          .print\\:hidden {
+            display: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
