@@ -86,59 +86,6 @@ export function Reglement({ config }: ReglementProps) {
         }
       `}</style>
 
-      {/* Title Page */}
-      <div className="text-center mb-8">
-        <p className="text-2xl font-bold mb-2">
-          <mark>App-</mark>Sjabloon voor Reglementen
-        </p>
-        <p className="text-xl font-bold">van NRF Regelmatigheidsritten</p>
-        <p className="font-bold">Versie 4.3 – jan 2026</p>
-      </div>
-
-      {/* Table of Contents */}
-      <div className="mb-8">
-        <p className="font-bold mb-2">Inhoudsopgave</p>
-        <p><a href="#organisatorische-aspecten">1. ORGANISATORISCHE ASPECTEN</a></p>
-        <p className="ml-4"><a href="#omschrijving-van-het-evenement">1.1. Omschrijving van het evenement</a></p>
-        <p className="ml-4"><a href="#organisatie">1.2. Organisatie</a></p>
-        <p className="ml-4"><a href="#locaties">1.3. Locaties</a></p>
-        <p className="ml-4"><a href="#belangrijke-data">1.4. Belangrijke data</a></p>
-        <p className="ml-4"><a href="#inschrijven-en-deelnamevoorwaarden">1.5. Inschrijven en deelnamevoorwaarden</a></p>
-        <p className="ml-4"><a href="#verzekering">1.6. Verzekering</a></p>
-        <p className="ml-4"><a href="#eisen-aan-de-auto">1.7. Eisen aan de auto</a></p>
-        <p className="ml-4"><a href="#verloop-van-het-evenement">1.8. Verloop van het evenement</a></p>
-        <p className="ml-4"><a href="#vragen-na-afloop-neutralisaties">1.9. Vragen na afloop &amp; neutralisaties</a></p>
-        <p className="ml-4"><a href="#klassement-prijzen">1.10. Klassement &amp; prijzen</a></p>
-        <p className="ml-4"><a href="#samenvatting-straffen-organisatorische-aspecten">1.11. Samenvatting straffen organisatorische aspecten</a></p>
-        <p><a href="#technische-aspecten">2. TECHNISCHE ASPECTEN</a></p>
-        <p className="ml-4"><a href="#routeboek">2.1. Routeboek</a></p>
-        <p className="ml-4"><a href="#controlekaarten">2.2. Controlekaarten</a></p>
-        <p className="ml-4"><a href="#routecontroles-rcs">2.3. Routecontroles (RC's)</a></p>
-        <p className="ml-4"><a href="#tijdcontroles-tcs">2.4. Tijdcontroles (TC's)</a></p>
-        {c.technical.regularityTest && (
-          <p className="ml-4"><a href="#regelmatigheidsproef-rp">2.5. Regelmatigheidsproef (RP)</a></p>
-        )}
-        {c.technical.skillTest && (
-          <p className="ml-4"><a href="#behendigheidsproeftest">2.6. Behendigheidsproef/Test</a></p>
-        )}
-        <p className="ml-4"><a href="#routeonderbrekingen">2.7. Routeonderbrekingen</a></p>
-        {c.technical.routeArrows.enabled && (
-          <p className="ml-4"><a href="#routepijlen">2.8. Routepijlen</a></p>
-        )}
-        <p className="ml-4"><a href="#snelheidscontroles">2.9. Snelheidscontroles</a></p>
-        <p className="ml-4"><a href="#quietzones">2.10. Quietzones</a></p>
-        <p className="ml-4"><a href="#samenvatting-straffen-technische-aspecten">2.11. Samenvatting straffen technische aspecten</a></p>
-        <p><a href="#routebepalingen">3. ROUTEBEPALINGEN</a></p>
-        <p className="ml-4"><a href="#algemene-kaartleesbepalingen">3.1. Algemene Kaartleesbepalingen</a></p>
-        <p className="ml-4"><a href="#herstelopdrachten-bij-controles">3.2. Herstelopdrachten bij controles</a></p>
-        <p className="ml-4"><a href="#systeembeschrijvingen">3.3. Systeembeschrijvingen</a></p>
-        <p><a href="#bijlage-a-vrijwaringverklaring">Bijlage A – Vrijwaringverklaring</a></p>
-        <p><a href="#bijlage-b-calamiteitenprocedure">Bijlage B – Calamiteitenprocedure</a></p>
-        {c.routeRules.legendLocation === "appendix" && (
-          <p><a href="#bijlage-c-legenda">Bijlage C – Legenda</a></p>
-        )}
-      </div>
-
       {/* Intro text */}
       <p className="italic">
         Dit Reglement is opgesteld aan de hand van het NHRF Sjabloon Reglement Regelmatigheidsritten v 4.3
