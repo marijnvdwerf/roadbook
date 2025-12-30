@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SectionNav, sections, type SectionId } from "./SectionNav";
 import {
   EventSection,
@@ -22,7 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { Eye, FileText, ChevronLeft, ChevronRight } from "lucide-react";
+import { Eye, FileText, ChevronRight } from "lucide-react";
 import { defaultConfig, type ReglementConfig } from "@/types/config";
 
 export function WizardConfigurator() {
@@ -30,138 +30,143 @@ export function WizardConfigurator() {
   const [currentSection, setCurrentSection] = useState<SectionId>("event");
   const [previewOpen, setPreviewOpen] = useState(false);
 
+  // Override the global overflow-hidden for this page
+  useEffect(() => {
+    document.documentElement.style.overflow = "auto";
+    document.body.style.overflow = "auto";
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   const currentIndex = sections.findIndex((s) => s.id === currentSection);
-  const canGoBack = currentIndex > 0;
-  const canGoForward = currentIndex < sections.length - 1;
-
-  const prevSection = currentIndex > 0 ? sections[currentIndex - 1] : null;
   const nextSection = currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null;
-
-  const goBack = () => {
-    if (prevSection) {
-      setCurrentSection(prevSection.id);
-    }
-  };
 
   const goForward = () => {
     if (nextSection) {
       setCurrentSection(nextSection.id);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const renderSection = () => {
+    const props = { config, onChange: setConfig };
+
     switch (currentSection) {
       case "event":
-        return <EventSection config={config} onChange={setConfig} />;
+        return <EventSection {...props} />;
       case "organization":
-        return <OrganizationSection config={config} onChange={setConfig} />;
+        return <OrganizationSection {...props} />;
       case "location":
-        return <LocationSection config={config} onChange={setConfig} />;
+        return <LocationSection {...props} />;
       case "registration":
-        return <RegistrationSection config={config} onChange={setConfig} />;
+        return <RegistrationSection {...props} />;
       case "classes":
-        return <ClassesSection config={config} onChange={setConfig} />;
+        return <ClassesSection {...props} />;
       case "technical":
-        return <TechnicalSection config={config} onChange={setConfig} />;
+        return <TechnicalSection {...props} />;
       case "routeRules":
-        return <RouteRulesSection config={config} onChange={setConfig} />;
+        return <RouteRulesSection {...props} />;
       case "tieBreaker":
-        return <TieBreakerSection config={config} onChange={setConfig} />;
+        return <TieBreakerSection {...props} />;
       case "navigationSystems":
-        return <NavigationSystemsSection config={config} onChange={setConfig} />;
+        return <NavigationSystemsSection {...props} />;
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex h-screen flex-col bg-background">
-      {/* Header */}
-      <header className="flex items-center justify-between border-b px-6 py-4">
-        <div className="flex items-center gap-4">
-          <a
-            href="/"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            &larr; Terug naar klassieke weergave
-          </a>
-          <div className="h-4 w-px bg-border" />
-          <h1 className="text-lg font-semibold">Reglement Configurator</h1>
-        </div>
+    <div className="bg-background">
+      {/* Centered container for everything */}
+      <div className="mx-auto max-w-5xl px-6">
+        {/* Header row */}
+        <header className="flex items-center justify-between py-6">
+          <div className="flex items-center gap-4">
+            <a
+              href="/"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              &larr; Terug
+            </a>
+            <div className="h-4 w-px bg-border" />
+            <h1 className="text-lg font-semibold">Reglement Configurator</h1>
+          </div>
 
-        <Sheet open={previewOpen} onOpenChange={setPreviewOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="gap-2">
-              <Eye className="h-4 w-4" />
-              Preview Reglement
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-full max-w-4xl p-0 sm:max-w-4xl">
-            <SheetHeader className="border-b px-6 py-4">
-              <SheetTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Preview Reglement
-              </SheetTitle>
-              <SheetDescription>
-                Bekijk hoe je reglement er uiteindelijk uitziet
-              </SheetDescription>
-            </SheetHeader>
-            <ScrollArea className="h-[calc(100vh-80px)]">
-              <div className="p-8">
-                <Reglement config={config} />
-              </div>
-            </ScrollArea>
-          </SheetContent>
-        </Sheet>
-      </header>
+          <Sheet open={previewOpen} onOpenChange={setPreviewOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Eye className="h-4 w-4" />
+                Preview
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full max-w-4xl p-0 sm:max-w-4xl">
+              <SheetHeader className="border-b px-6 py-4">
+                <SheetTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Preview Reglement
+                </SheetTitle>
+                <SheetDescription>
+                  Bekijk hoe je reglement er uiteindelijk uitziet
+                </SheetDescription>
+              </SheetHeader>
+              <ScrollArea className="h-[calc(100vh-80px)]">
+                <div className="p-8">
+                  <Reglement config={config} />
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+        </header>
 
-      {/* Main content */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <aside className="w-64 shrink-0 border-r bg-muted/30">
-          <ScrollArea className="h-full py-4">
-            <div className="px-3">
+        {/* Main layout: sidebar + content */}
+        <div className="flex gap-16 pb-24">
+          {/* Sidebar - sticky to top */}
+          <aside className="w-44 shrink-0">
+            <nav className="sticky top-8">
               <SectionNav
                 currentSection={currentSection}
                 onSectionChange={setCurrentSection}
-                config={config}
               />
-            </div>
-          </ScrollArea>
-        </aside>
+            </nav>
+          </aside>
 
-        {/* Content area */}
-        <main className="flex flex-1 flex-col overflow-hidden">
-          <ScrollArea className="flex-1">
-            <div className="mx-auto max-w-3xl px-8 py-8">{renderSection()}</div>
-          </ScrollArea>
+          {/* Content */}
+          <div className="min-w-0 flex-1">
+            {renderSection()}
 
-          {/* Bottom navigation */}
-          <div className="flex items-center justify-between border-t bg-background px-8 py-4">
-            <Button
-              variant="outline"
-              onClick={goBack}
-              disabled={!prevSection}
-              className="gap-2"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              {prevSection?.title ?? "Vorige"}
-            </Button>
+            {/* Next button */}
+            {nextSection && (
+              <div className="mt-12 pt-8 border-t">
+                <Button onClick={goForward} className="gap-2">
+                  Volgende: {nextSection.title}
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
 
-            <span className="text-sm text-muted-foreground">
-              {currentIndex + 1} van {sections.length}
-            </span>
-
-            <Button
-              onClick={goForward}
-              disabled={!nextSection}
-              className="gap-2"
-            >
-              {nextSection?.title ?? "Volgende"}
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+            {/* Final section */}
+            {!nextSection && (
+              <div className="mt-12 pt-8 border-t">
+                <div className="rounded-lg border bg-muted/50 p-6">
+                  <h3 className="font-medium">Configuratie compleet</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Je hebt alle secties doorlopen. Gebruik de Preview knop om je reglement te bekijken.
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="mt-4 gap-2"
+                    onClick={() => setPreviewOpen(true)}
+                  >
+                    <Eye className="h-4 w-4" />
+                    Preview Reglement
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );
