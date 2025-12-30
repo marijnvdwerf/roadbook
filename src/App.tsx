@@ -25,7 +25,7 @@ export function App() {
   const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
 
   // Route to wizard configurator at /v2
-  if (path === "/v2") {
+  if (path.endsWith("/v2")) {
     return <WizardConfigurator />;
   }
 
@@ -72,7 +72,7 @@ export function App() {
         <div className="flex items-center gap-4">
           <h1 className="text-xl font-bold">NRF Reglement Generator</h1>
           <a
-            href="/v2"
+            href="v2"
             className="text-sm text-muted-foreground hover:text-foreground underline"
           >
             Probeer de nieuwe wizard &rarr;
