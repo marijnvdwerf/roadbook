@@ -1,13 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ConfigForm } from "./components/ConfigForm";
 import { Reglement } from "./components/Reglement";
+import { WizardConfigurator } from "./components/wizard";
 import { ScrollArea } from "./components/ui/scroll-area";
 import { Button } from "./components/ui/button";
 import { defaultConfig, type ReglementConfig } from "./types/config";
 import "./index.css";
 
+// Simple client-side router
+function useRoute() {
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => setPath(window.location.pathname);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  return path;
+}
+
 export function App() {
+  const path = useRoute();
   const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
+
+  // Route to wizard configurator at /v2
+  if (path === "/v2") {
+    return <WizardConfigurator />;
+  }
+
+  // Default: original configurator
 
   const handlePrint = () => {
     window.print();
@@ -47,7 +69,15 @@ export function App() {
     <div className="h-screen flex flex-col">
       {/* Header */}
       <header className="border-b bg-background px-4 py-3 flex items-center justify-between print:hidden">
-        <h1 className="text-xl font-bold">NRF Reglement Generator</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-xl font-bold">NRF Reglement Generator</h1>
+          <a
+            href="/v2"
+            className="text-sm text-muted-foreground hover:text-foreground underline"
+          >
+            Probeer de nieuwe wizard &rarr;
+          </a>
+        </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={handleImport}>
             Importeren
