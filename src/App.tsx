@@ -7,25 +7,25 @@ import { Button } from "./components/ui/button";
 import { defaultConfig, type ReglementConfig } from "./types/config";
 import "./index.css";
 
-// Simple client-side router
+// Simple hash-based client-side router
 function useRoute() {
-  const [path, setPath] = useState(window.location.pathname);
+  const [hash, setHash] = useState(window.location.hash);
 
   useEffect(() => {
-    const handlePopState = () => setPath(window.location.pathname);
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  return path;
+  return hash;
 }
 
 export function App() {
-  const path = useRoute();
+  const hash = useRoute();
   const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
 
-  // Route to wizard configurator at /v2
-  if (path.endsWith("/v2")) {
+  // Route to wizard configurator at #v2
+  if (hash === "#v2") {
     return <WizardConfigurator />;
   }
 
@@ -72,7 +72,7 @@ export function App() {
         <div className="flex items-center gap-4">
           <h1 className="text-xl font-bold">NRF Reglement Generator</h1>
           <a
-            href="v2"
+            href="#v2"
             className="text-sm text-muted-foreground hover:text-foreground underline"
           >
             Probeer de nieuwe wizard &rarr;

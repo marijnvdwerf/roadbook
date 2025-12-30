@@ -85,7 +85,7 @@ export function WizardConfigurator() {
         <header className="flex items-center justify-between py-6">
           <div className="flex items-center gap-4">
             <a
-              href="./"
+              href="#"
               className="text-sm text-muted-foreground hover:text-foreground"
             >
               &larr; Terug
