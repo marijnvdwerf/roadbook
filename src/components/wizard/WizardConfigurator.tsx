@@ -22,13 +22,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { Eye, FileText, ChevronRight } from "lucide-react";
+import { Eye, FileText, ChevronRight, Download } from "lucide-react";
 import { defaultConfig, type ReglementConfig } from "@/types/config";
+import { generateDocument } from "@/lib/generateDocument";
 
 export function WizardConfigurator() {
   const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
   const [currentSection, setCurrentSection] = useState<SectionId>("event");
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  const handleDownload = async () => {
+    await generateDocument(config);
+  };
 
   // Override the global overflow-hidden for this page
   useEffect(() => {
@@ -94,7 +99,18 @@ export function WizardConfigurator() {
             <h1 className="text-lg font-semibold">Reglement Configurator</h1>
           </div>
 
-          <Sheet open={previewOpen} onOpenChange={setPreviewOpen}>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={handleDownload}
+            >
+              <Download className="h-4 w-4" />
+              Download Word
+            </Button>
+
+            <Sheet open={previewOpen} onOpenChange={setPreviewOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
                 <Eye className="h-4 w-4" />
@@ -118,6 +134,7 @@ export function WizardConfigurator() {
               </ScrollArea>
             </SheetContent>
           </Sheet>
+          </div>
         </header>
 
         {/* Main layout: sidebar + content */}
@@ -154,14 +171,20 @@ export function WizardConfigurator() {
                   <p className="mt-1 text-sm text-muted-foreground">
                     Je hebt alle secties doorlopen. Gebruik de Preview knop om je reglement te bekijken.
                   </p>
-                  <Button
-                    variant="outline"
-                    className="mt-4 gap-2"
-                    onClick={() => setPreviewOpen(true)}
-                  >
-                    <Eye className="h-4 w-4" />
-                    Preview Reglement
-                  </Button>
+                  <div className="mt-4 flex gap-3">
+                    <Button
+                      variant="outline"
+                      className="gap-2"
+                      onClick={() => setPreviewOpen(true)}
+                    >
+                      <Eye className="h-4 w-4" />
+                      Preview Reglement
+                    </Button>
+                    <Button className="gap-2" onClick={handleDownload}>
+                      <Download className="h-4 w-4" />
+                      Download Word
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
