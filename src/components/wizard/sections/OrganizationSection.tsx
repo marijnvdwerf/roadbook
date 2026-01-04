@@ -1,13 +1,23 @@
+import type { KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { ReglementConfig, ContactInfo } from "@/types/config";
 
 interface OrganizationSectionProps {
   config: ReglementConfig;
   onChange: (config: ReglementConfig) => void;
+}
+
+function focusNextInput(e: KeyboardEvent<HTMLInputElement>) {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  const form = e.currentTarget.closest("form") || document.body;
+  const inputs = Array.from(form.querySelectorAll<HTMLInputElement>("input:not([disabled])"));
+  const currentIndex = inputs.indexOf(e.currentTarget);
+  const nextInput = inputs[currentIndex + 1];
+  nextInput?.focus();
 }
 
 function ContactFields({
@@ -28,6 +38,8 @@ function ContactFields({
         <div className="space-y-1.5">
           <Label className="text-xs">Naam</Label>
           <Input
+            enterKeyHint="next"
+            onKeyDown={focusNextInput}
             value={contact.name}
             onChange={(e) => onChange({ ...contact, name: e.target.value })}
           />
@@ -35,6 +47,8 @@ function ContactFields({
         <div className="space-y-1.5">
           <Label className="text-xs">Telefoon</Label>
           <Input
+            enterKeyHint={showEmail ? "next" : "done"}
+            onKeyDown={focusNextInput}
             value={contact.phone || ""}
             onChange={(e) => onChange({ ...contact, phone: e.target.value })}
           />
@@ -44,6 +58,8 @@ function ContactFields({
             <Label className="text-xs">E-mail</Label>
             <Input
               type="email"
+              enterKeyHint="done"
+              onKeyDown={focusNextInput}
               value={contact.email || ""}
               onChange={(e) => onChange({ ...contact, email: e.target.value })}
             />
@@ -54,7 +70,7 @@ function ContactFields({
   );
 }
 
-function ListInput({
+function NamesInput({
   label,
   items,
   onChange,
@@ -63,41 +79,43 @@ function ListInput({
   items: string[];
   onChange: (items: string[]) => void;
 }) {
-  const addItem = () => onChange([...items, ""]);
-  const removeItem = (index: number) => onChange(items.filter((_, i) => i !== index));
-  const updateItem = (index: number, value: string) =>
-    onChange(items.map((item, i) => (i === index ? value : item)));
+  // Ensure there's always at least one input
+  const displayItems = items.length === 0 ? [""] :
+    items[items.length - 1] !== "" ? [...items, ""] : items;
+
+  const updateItem = (index: number, value: string) => {
+    const newItems = [...displayItems];
+    newItems[index] = value;
+    onChange(newItems);
+  };
+
+  const removeItem = (index: number) => {
+    onChange(displayItems.filter((_, i) => i !== index));
+  };
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <Label>{label}</Label>
-        <Button type="button" variant="outline" size="sm" onClick={addItem}>
-          <Plus className="mr-1 h-3 w-3" /> Toevoegen
-        </Button>
-      </div>
+    <div className="space-y-2">
+      <Label>{label}</Label>
       <div className="space-y-2">
-        {items.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Nog geen {label.toLowerCase()} toegevoegd.</p>
-        ) : (
-          items.map((item, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: items are simple strings without unique IDs
-            <div key={index} className="flex gap-2">
-              <Input
-                value={item}
-                onChange={(e) => updateItem(index, e.target.value)}
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => removeItem(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          ))
-        )}
+        {displayItems.map((item, index) => (
+          <div key={index} className="relative">
+            <Input
+              enterKeyHint="next"
+              onKeyDown={focusNextInput}
+              value={item}
+              onChange={(e) => updateItem(index, e.target.value)}
+              className="pr-9"
+            />
+            <button
+              type="button"
+              onClick={() => removeItem(index)}
+              disabled={index === displayItems.length - 1}
+              className="absolute right-0 top-0 h-9 w-9 flex items-center justify-center text-muted-foreground hover:text-foreground disabled:invisible"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -157,11 +175,13 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
           <Label htmlFor="chairman">Voorzitter</Label>
           <Input
             id="chairman"
+            enterKeyHint="next"
+            onKeyDown={focusNextInput}
             value={config.organization.chairman}
             onChange={(e) => updateOrg("chairman", e.target.value)}
           />
         </div>
-        <ListInput
+        <NamesInput
           label="Commissieleden"
           items={config.organization.committeeMembers}
           onChange={(items) => updateOrg("committeeMembers", items)}
@@ -178,18 +198,16 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
             De uitzetter maakt de route, de narijder controleert of alles klopt.
           </p>
         </div>
-        <div className="grid gap-4 lg:grid-cols-2">
-          <ListInput
-            label="Uitzetter(s)"
-            items={config.organization.routeSetters}
-            onChange={(items) => updateOrg("routeSetters", items)}
-          />
-          <ListInput
-            label="Narijder(s)"
-            items={config.organization.routeCheckers}
-            onChange={(items) => updateOrg("routeCheckers", items)}
-          />
-        </div>
+        <NamesInput
+          label="Uitzetter(s)"
+          items={config.organization.routeSetters}
+          onChange={(items) => updateOrg("routeSetters", items)}
+        />
+        <NamesInput
+          label="Narijder(s)"
+          items={config.organization.routeCheckers}
+          onChange={(items) => updateOrg("routeCheckers", items)}
+        />
       </div>
 
       <Separator />

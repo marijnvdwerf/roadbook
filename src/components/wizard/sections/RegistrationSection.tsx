@@ -183,16 +183,19 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
           </div>
 
           {config.registration.allowModernVehicles && (
-            <div className="ml-10 space-y-2">
-              <Label htmlFor="modern-categories">Toegestane categorieën</Label>
-              <p className="text-xs text-muted-foreground">
-                Beschrijf welke moderne voertuigen zijn toegestaan.
-              </p>
-              <Input
-                id="modern-categories"
-                value={config.registration.modernVehicleCategories}
-                onChange={(e) => updateReg("modernVehicleCategories", e.target.value)}
-              />
+            <div className="flex gap-3">
+              <div className="w-9 shrink-0" />
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="modern-categories">Toegestane categorieën</Label>
+                <p className="text-xs text-muted-foreground">
+                  Beschrijf welke moderne voertuigen zijn toegestaan.
+                </p>
+                <Input
+                  id="modern-categories"
+                  value={config.registration.modernVehicleCategories}
+                  onChange={(e) => updateReg("modernVehicleCategories", e.target.value)}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -226,31 +229,34 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
           </div>
 
           {config.registration.teamRegistration.enabled && (
-            <div className="ml-10 grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="team-cost">Kosten teaminschrijving (€)</Label>
-                <Input
-                  id="team-cost"
-                  type="number"
-                  min="0"
-                  value={config.registration.teamRegistration.cost || ""}
-                  onChange={(e) => updateTeamReg("cost", Number(e.target.value))}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="team-method">Inschrijfmethode</Label>
-                <Select
-                  value={config.registration.teamRegistration.method}
-                  onValueChange={(value) => updateTeamReg("method", value as "website" | "onsite")}
-                >
-                  <SelectTrigger id="team-method">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="website">Via de website</SelectItem>
-                    <SelectItem value="onsite">Op de dag zelf</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="flex gap-3">
+              <div className="w-9 shrink-0" />
+              <div className="flex-1 grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="team-cost">Kosten teaminschrijving (€)</Label>
+                  <Input
+                    id="team-cost"
+                    type="number"
+                    min="0"
+                    value={config.registration.teamRegistration.cost || ""}
+                    onChange={(e) => updateTeamReg("cost", Number(e.target.value))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="team-method">Inschrijfmethode</Label>
+                  <Select
+                    value={config.registration.teamRegistration.method}
+                    onValueChange={(value) => updateTeamReg("method", value as "website" | "onsite")}
+                  >
+                    <SelectTrigger id="team-method">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="website">Via de website</SelectItem>
+                      <SelectItem value="onsite">Op de dag zelf</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           )}

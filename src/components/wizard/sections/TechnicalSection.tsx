@@ -150,41 +150,44 @@ export function TechnicalSection({ config, onChange }: TechnicalSectionProps) {
         </div>
 
         {config.technical.routeArrows.enabled && (
-          <div className="ml-10 grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label>Type routepijlen</Label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => updateArrows("type", "physical")}
-                  className={`flex-1 rounded-lg border-2 px-3 py-2 text-sm transition-colors ${
-                    config.technical.routeArrows.type === "physical"
-                      ? "border-primary bg-primary/5"
-                      : "border-muted-foreground/20"
-                  }`}
-                >
-                  Fysieke borden
-                </button>
-                <button
-                  type="button"
-                  onClick={() => updateArrows("type", "virtual")}
-                  className={`flex-1 rounded-lg border-2 px-3 py-2 text-sm transition-colors ${
-                    config.technical.routeArrows.type === "virtual"
-                      ? "border-primary bg-primary/5"
-                      : "border-muted-foreground/20"
-                  }`}
-                >
-                  In de app
-                </button>
+          <div className="flex gap-3">
+            <div className="w-9 shrink-0" />
+            <div className="flex-1 grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Type routepijlen</Label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => updateArrows("type", "physical")}
+                    className={`flex-1 rounded-lg border-2 px-3 py-2 text-sm transition-colors ${
+                      config.technical.routeArrows.type === "physical"
+                        ? "border-primary bg-primary/5"
+                        : "border-muted-foreground/20"
+                    }`}
+                  >
+                    Fysieke borden
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => updateArrows("type", "virtual")}
+                    className={`flex-1 rounded-lg border-2 px-3 py-2 text-sm transition-colors ${
+                      config.technical.routeArrows.type === "virtual"
+                        ? "border-primary bg-primary/5"
+                        : "border-muted-foreground/20"
+                    }`}
+                  >
+                    In de app
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="arrow-inscription">Opschrift op pijlen</Label>
-              <Input
-                id="arrow-inscription"
-                value={config.technical.routeArrows.inscription}
-                onChange={(e) => updateArrows("inscription", e.target.value)}
-              />
+              <div className="space-y-2">
+                <Label htmlFor="arrow-inscription">Opschrift op pijlen</Label>
+                <Input
+                  id="arrow-inscription"
+                  value={config.technical.routeArrows.inscription}
+                  onChange={(e) => updateArrows("inscription", e.target.value)}
+                />
+              </div>
             </div>
           </div>
         )}
