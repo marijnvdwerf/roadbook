@@ -69,12 +69,15 @@ export function EventSection({ config, onChange }: EventSectionProps) {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="event-date">Datum</Label>
+            <Label htmlFor="event-length">Routelengte (km)</Label>
+            <p className="text-xs text-muted-foreground">
+              Geschatte totale routelengte voor de hoogste klasse.
+            </p>
             <Input
-              id="event-date"
-              type="date"
-              value={config.event.date}
-              onChange={(e) => updateEvent("date", e.target.value)}
+              id="event-length"
+              type="number"
+              value={config.event.routeLengthKm || ""}
+              onChange={(e) => updateEvent("routeLengthKm", Number(e.target.value))}
             />
           </div>
           <div className="space-y-2">
@@ -92,15 +95,12 @@ export function EventSection({ config, onChange }: EventSectionProps) {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="event-length">Routelengte (km)</Label>
-            <p className="text-xs text-muted-foreground">
-              Geschatte totale routelengte voor de hoogste klasse.
-            </p>
+            <Label htmlFor="event-date">Datum</Label>
             <Input
-              id="event-length"
-              type="number"
-              value={config.event.routeLengthKm || ""}
-              onChange={(e) => updateEvent("routeLengthKm", Number(e.target.value))}
+              id="event-date"
+              type="date"
+              value={config.event.date}
+              onChange={(e) => updateEvent("date", e.target.value)}
             />
           </div>
           <div className="space-y-2">
