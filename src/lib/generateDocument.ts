@@ -2,14 +2,13 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import type { ReglementConfig } from "../types/config";
-// @ts-ignore - Bun handles asset imports
-import templatePath from "../assets/template.docx";
 // @ts-ignore - docxtemplater expressions
 import expressions from "docxtemplater/expressions.js";
 
 export const generateDocument = async (config: ReglementConfig) => {
   try {
-    const response = await fetch(templatePath);
+    // Fetch template from public folder (BASE_URL handles subdirectory deployment)
+    const response = await fetch(`${import.meta.env.BASE_URL}template.docx`);
     if (!response.ok) {
       throw new Error(`Could not fetch template: ${response.statusText}`);
     }

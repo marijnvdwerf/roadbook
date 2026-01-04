@@ -117,4 +117,19 @@
   body {
     @apply bg-background text-foreground;
   }
+  html, body {
+    @apply h-full m-0 p-0;
+  }
+}
+
+/* Print styles */
+@media print {
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  body {
+    background: white !important;
+  }
 }

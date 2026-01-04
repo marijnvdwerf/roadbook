@@ -1,69 +1,51 @@
-import { useState, useEffect } from "react";
-import { ConfigForm } from "./components/ConfigForm";
-import { Reglement } from "./components/Reglement";
-import { WizardConfigurator } from "./components/wizard";
-import { ScrollArea } from "./components/ui/scroll-area";
-import { Button } from "./components/ui/button";
-import { defaultConfig, type ReglementConfig } from "./types/config";
-import "./index.css";
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { useState } from 'react'
+import { ConfigForm } from '../components/ConfigForm'
+import { Reglement } from '../components/Reglement'
+import { ScrollArea } from '../components/ui/scroll-area'
+import { Button } from '../components/ui/button'
+import { defaultConfig, type ReglementConfig } from '../types/config'
 
-// Simple hash-based client-side router
-function useRoute() {
-  const [hash, setHash] = useState(window.location.hash);
+export const Route = createFileRoute('/')({
+  component: HomePage,
+})
 
-  useEffect(() => {
-    const handleHashChange = () => setHash(window.location.hash);
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
-
-  return hash;
-}
-
-export function App() {
-  const hash = useRoute();
-  const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
-
-  // Route to wizard configurator at #v2
-  if (hash === "#v2") {
-    return <WizardConfigurator />;
-  }
-
-  // Default: original configurator
+function HomePage() {
+  const [config, setConfig] = useState<ReglementConfig>(defaultConfig)
 
   const handlePrint = () => {
-    window.print();
-  };
+    window.print()
+  }
 
   const handleExport = () => {
-    const json = JSON.stringify(config, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `reglement-${config.event.name || "config"}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+    const json = JSON.stringify(config, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `reglement-${config.event.name || 'config'}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   const handleImport = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".json";
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.json'
     input.onchange = async (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
+      const file = (e.target as HTMLInputElement).files?.[0]
       if (file) {
-        const text = await file.text();
+        const text = await file.text()
         try {
-          const imported = JSON.parse(text);
-          setConfig({ ...defaultConfig, ...imported });
+          const imported = JSON.parse(text)
+          setConfig({ ...defaultConfig, ...imported })
         } catch {
-          alert("Ongeldig JSON bestand");
+          alert('Ongeldig JSON bestand')
         }
       }
-    };
-    input.click();
-  };
+    }
+    input.click()
+  }
 
   return (
     <div className="h-screen flex flex-col">
@@ -71,12 +53,12 @@ export function App() {
       <header className="border-b bg-background px-4 py-3 flex items-center justify-between print:hidden">
         <div className="flex items-center gap-4">
           <h1 className="text-xl font-bold">NRF Reglement Generator</h1>
-          <a
-            href="#v2"
+          <Link
+            to="/v2"
             className="text-sm text-muted-foreground hover:text-foreground underline"
           >
             Probeer de nieuwe wizard &rarr;
-          </a>
+          </Link>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={handleImport}>
@@ -122,7 +104,5 @@ export function App() {
         }
       `}</style>
     </div>
-  );
+  )
 }
-
-export default App;
