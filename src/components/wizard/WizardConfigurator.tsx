@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 import { SectionNav, sections, type SectionId } from "./SectionNav";
 import {
   EventSection,
@@ -89,12 +90,12 @@ export function WizardConfigurator() {
         {/* Header row */}
         <header className="flex items-center justify-between py-6">
           <div className="flex items-center gap-4">
-            <a
-              href="#"
+            <Link
+              to="/"
               className="text-sm text-muted-foreground hover:text-foreground"
             >
               &larr; Terug
-            </a>
+            </Link>
             <div className="h-4 w-px bg-border" />
             <h1 className="text-lg font-semibold">Reglement Configurator</h1>
           </div>

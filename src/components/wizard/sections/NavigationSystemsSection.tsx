@@ -41,7 +41,7 @@ export function NavigationSystemsSection({ config, onChange }: NavigationSystems
 
   const toggleSimple = (key: keyof typeof ns) => {
     if (typeof ns[key] === "boolean") {
-      updateNS(key, !ns[key] as any);
+      updateNS(key, !ns[key] as ReglementConfig["navigationSystems"][typeof key]);
     }
   };
 

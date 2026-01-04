@@ -2,7 +2,7 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import type { ReglementConfig } from "../types/config";
-// @ts-ignore - docxtemplater expressions
+// @ts-expect-error - docxtemplater expressions
 import expressions from "docxtemplater/expressions.js";
 
 export const generateDocument = async (config: ReglementConfig) => {
@@ -50,13 +50,14 @@ export const generateDocument = async (config: ReglementConfig) => {
     });
 
     saveAs(out, `Reglement-${config.event.name || "Concept"}.docx`);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("=== Document Generation Error ===");
     console.error("Full error object:", error);
 
-    if (error?.properties?.errors) {
+    const docxError = error as { properties?: { errors?: Array<{ name: string; message: string; properties: unknown }> } };
+    if (docxError?.properties?.errors) {
       console.error("Docxtemplater errors:");
-      error.properties.errors.forEach((e: any, index: number) => {
+      docxError.properties.errors.forEach((e, index) => {
         console.error(`\nError ${index + 1}:`, {
           name: e.name,
           message: e.message,

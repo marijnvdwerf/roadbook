@@ -41,6 +41,7 @@ export function SectionNav({ currentSection, onSectionChange }: SectionNavProps)
 
         return (
           <button
+            type="button"
             key={section.id}
             onClick={() => onSectionChange(section.id)}
             className={cn(

@@ -90,6 +90,7 @@ function ListInput({
           <p className="text-sm text-muted-foreground">Nog geen {label.toLowerCase()} toegevoegd.</p>
         ) : (
           items.map((item, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: items are simple strings without unique IDs
             <div key={index} className="flex gap-2">
               <Input
                 placeholder={placeholder}

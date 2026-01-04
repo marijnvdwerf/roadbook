@@ -591,7 +591,7 @@ export function Reglement({ config }: ReglementProps) {
         heeft behaald bij de tijdmeting van de{" "}
         {c.tieBreaker.primary === "ex_aequo_control"
           ? <>ex-aequo controle{c.tieBreaker.controlName && <> ({c.tieBreaker.controlName})</>}</>
-          : <>regelmatigheidsproef</>
+          : "regelmatigheidsproef"
         } de hoogste klassering krijgen. Mocht dit geen beslissing geven, dan{" "}
         {c.tieBreaker.secondary === "heaviest_section" && "zal de equipe met het laagst aantal strafpunten in het zwaarste traject het hoogst geklasseerd worden"}
         {c.tieBreaker.secondary === "oldest_car" && "zal de equipe met de oudste auto het hoogst geklasseerd worden"}
