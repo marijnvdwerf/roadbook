@@ -27,10 +27,47 @@ import { Eye, FileText, ChevronRight, Download } from "lucide-react";
 import { defaultConfig, type ReglementConfig } from "@/types/config";
 import { generateDocument } from "@/lib/generateDocument";
 
+const STORAGE_KEY = "wizard-config";
+const SECTION_KEY = "wizard-section";
+
+function loadStoredConfig(): ReglementConfig {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored) as ReglementConfig;
+    }
+  } catch {
+    // Ignore parse errors, return default
+  }
+  return defaultConfig;
+}
+
+function loadStoredSection(): SectionId {
+  try {
+    const stored = localStorage.getItem(SECTION_KEY);
+    if (stored && sections.some((s) => s.id === stored)) {
+      return stored as SectionId;
+    }
+  } catch {
+    // Ignore errors
+  }
+  return "event";
+}
+
 export function WizardConfigurator() {
-  const [config, setConfig] = useState<ReglementConfig>(defaultConfig);
-  const [currentSection, setCurrentSection] = useState<SectionId>("event");
+  const [config, setConfig] = useState<ReglementConfig>(loadStoredConfig);
+  const [currentSection, setCurrentSection] = useState<SectionId>(loadStoredSection);
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  // Persist config to localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+  }, [config]);
+
+  // Persist current section to localStorage
+  useEffect(() => {
+    localStorage.setItem(SECTION_KEY, currentSection);
+  }, [currentSection]);
 
   const handleDownload = async () => {
     await generateDocument(config);
