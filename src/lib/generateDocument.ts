@@ -2,7 +2,6 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import type { ReglementConfig } from "../types/config";
-// @ts-expect-error - docxtemplater expressions
 import expressions from "docxtemplater/expressions.js";
 
 export const generateDocument = async (config: ReglementConfig) => {
