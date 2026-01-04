@@ -36,13 +36,8 @@ function ClassCard({
       </div>
       <div className="space-y-3">
         <div className="space-y-1.5">
-          <Label className="text-xs">
-            Naam <span className="text-destructive">*</span>
-          </Label>
+          <Label className="text-xs">Naam</Label>
           <Input
-            placeholder={
-              level === "highest" ? "bijv. Expert" : level === "middle" ? "bijv. Sport" : "bijv. Toer"
-            }
             value={classData.name}
             onChange={(e) => onChange({ ...classData, name: e.target.value })}
           />
@@ -50,7 +45,6 @@ function ClassCard({
         <div className="space-y-1.5">
           <Label className="text-xs">Omschrijving (optioneel)</Label>
           <Textarea
-            placeholder="Korte omschrijving van deze klasse..."
             rows={2}
             value={classData.description}
             onChange={(e) => onChange({ ...classData, description: e.target.value })}

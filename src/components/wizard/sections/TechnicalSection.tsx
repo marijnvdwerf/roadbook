@@ -57,18 +57,15 @@ export function TechnicalSection({ config, onChange }: TechnicalSectionProps) {
           </p>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="map-scales">
-            Kaartschaal <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="map-scales"
-            placeholder="bijv. 1:50.000 of 1:50.000 en 1:25.000"
-            value={config.technical.mapScales}
-            onChange={(e) => updateTech("mapScales", e.target.value)}
-          />
+          <Label htmlFor="map-scales">Kaartschaal</Label>
           <p className="text-xs text-muted-foreground">
             De meeste ritten gebruiken 1:50.000 kaarten. Vermeld alle schalen die gebruikt worden.
           </p>
+          <Input
+            id="map-scales"
+            value={config.technical.mapScales}
+            onChange={(e) => updateTech("mapScales", e.target.value)}
+          />
         </div>
       </div>
 
@@ -113,7 +110,6 @@ export function TechnicalSection({ config, onChange }: TechnicalSectionProps) {
               <Label htmlFor="app-name">Naam van de app</Label>
               <Input
                 id="app-name"
-                placeholder="bijv. Rallyblad, TulipLink"
                 value={config.technical.appName}
                 onChange={(e) => updateTech("appName", e.target.value)}
               />
@@ -123,7 +119,6 @@ export function TechnicalSection({ config, onChange }: TechnicalSectionProps) {
               <Input
                 id="app-manual"
                 type="url"
-                placeholder="https://..."
                 value={config.technical.appManualUrl}
                 onChange={(e) => updateTech("appManualUrl", e.target.value)}
               />
@@ -187,7 +182,6 @@ export function TechnicalSection({ config, onChange }: TechnicalSectionProps) {
               <Label htmlFor="arrow-inscription">Opschrift op pijlen</Label>
               <Input
                 id="arrow-inscription"
-                placeholder="bijv. MSC of evenementnaam"
                 value={config.technical.routeArrows.inscription}
                 onChange={(e) => updateArrows("inscription", e.target.value)}
               />
@@ -250,19 +244,18 @@ export function TechnicalSection({ config, onChange }: TechnicalSectionProps) {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="tolerance">Afwijkingstolerantie (meters)</Label>
+            <p className="text-xs text-muted-foreground">
+              Als een wegaansluiting minder dan dit aantal meters afwijkt van de kaart, mag de
+              afwijkende aansluiting gebruikt worden.
+            </p>
             <Input
               id="tolerance"
               type="number"
               min="0"
               step="10"
-              placeholder="50"
               value={config.technical.deviationToleranceMeters || ""}
               onChange={(e) => updateTech("deviationToleranceMeters", Number(e.target.value))}
             />
-            <p className="text-xs text-muted-foreground">
-              Als een wegaansluiting minder dan dit aantal meters afwijkt van de kaart, mag de
-              afwijkende aansluiting gebruikt worden.
-            </p>
           </div>
           <div className="space-y-3">
             <Label>Quietzones</Label>

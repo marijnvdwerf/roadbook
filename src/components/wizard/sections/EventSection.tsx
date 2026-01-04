@@ -50,23 +50,17 @@ export function EventSection({ config, onChange }: EventSectionProps) {
       <div className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="event-name">
-              Naam evenement <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="event-name">Naam evenement</Label>
             <Input
               id="event-name"
-              placeholder="bijv. Achterhoekritten Classic"
               value={config.event.name}
               onChange={(e) => updateEvent("name", e.target.value)}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="event-org">
-              Organisatie <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="event-org">Organisatie</Label>
             <Input
               id="event-org"
-              placeholder="bijv. MSC De Graafschap"
               value={config.event.organizationName}
               onChange={(e) => updateEvent("organizationName", e.target.value)}
             />
@@ -75,9 +69,7 @@ export function EventSection({ config, onChange }: EventSectionProps) {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="event-date">
-              Datum <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="event-date">Datum</Label>
             <Input
               id="event-date"
               type="date"
@@ -87,72 +79,37 @@ export function EventSection({ config, onChange }: EventSectionProps) {
           </div>
           <div className="space-y-2">
             <Label htmlFor="event-area">Wedstrijdgebied</Label>
-            <Input
-              id="event-area"
-              placeholder="bijv. Noordoost-Gelderland"
-              value={config.event.area}
-              onChange={(e) => updateEvent("area", e.target.value)}
-            />
             <p className="text-xs text-muted-foreground">
               Geografische omschrijving van het gebied waar de route ligt.
             </p>
+            <Input
+              id="event-area"
+              value={config.event.area}
+              onChange={(e) => updateEvent("area", e.target.value)}
+            />
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="event-length">Routelengte (km)</Label>
-            <Input
-              id="event-length"
-              type="number"
-              placeholder="bijv. 150"
-              value={config.event.routeLengthKm || ""}
-              onChange={(e) => updateEvent("routeLengthKm", Number(e.target.value))}
-            />
             <p className="text-xs text-muted-foreground">
               Geschatte totale routelengte voor de hoogste klasse.
             </p>
+            <Input
+              id="event-length"
+              type="number"
+              value={config.event.routeLengthKm || ""}
+              onChange={(e) => updateEvent("routeLengthKm", Number(e.target.value))}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="event-website">Website</Label>
             <Input
               id="event-website"
               type="url"
-              placeholder="https://www.voorbeeld.nl"
               value={config.event.website}
               onChange={(e) => updateEvent("website", e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-
-      <Separator />
-
-      {/* NRF Approval */}
-      <div className="space-y-4">
-        <div>
-          <h3 className="font-medium">NRF Goedkeuring</h3>
-          <p className="text-sm text-muted-foreground">
-            Deze gegevens ontvang je van de NRF Reglementencommissie na goedkeuring.
-          </p>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <Label htmlFor="approval-date">Goedkeuringsdatum</Label>
-            <Input
-              id="approval-date"
-              type="date"
-              value={config.event.approvalDate}
-              onChange={(e) => updateEvent("approvalDate", e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="approval-number">Goedkeuringsnummer</Label>
-            <Input
-              id="approval-number"
-              placeholder="bijv. 2025-001"
-              value={config.event.approvalNumber}
-              onChange={(e) => updateEvent("approvalNumber", e.target.value)}
             />
           </div>
         </div>

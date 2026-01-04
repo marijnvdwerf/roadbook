@@ -13,23 +13,18 @@ function VenueFields({
   label,
   venue,
   onChange,
-  required = false,
 }: {
   label: string;
   venue: VenueInfo;
   onChange: (venue: VenueInfo) => void;
-  required?: boolean;
 }) {
   return (
     <div className="space-y-3 rounded-lg border bg-muted/30 p-4">
-      <h4 className="font-medium">
-        {label} {required && <span className="text-destructive">*</span>}
-      </h4>
+      <h4 className="font-medium">{label}</h4>
       <div className="space-y-3">
         <div className="space-y-1.5">
           <Label className="text-xs">Naam locatie</Label>
           <Input
-            placeholder="bijv. Restaurant De Gouden Leeuw"
             value={venue.name}
             onChange={(e) => onChange({ ...venue, name: e.target.value })}
           />
@@ -37,7 +32,6 @@ function VenueFields({
         <div className="space-y-1.5">
           <Label className="text-xs">Volledig adres</Label>
           <Input
-            placeholder="Straat 123, 1234 AB Plaats"
             value={venue.address}
             onChange={(e) => onChange({ ...venue, address: e.target.value })}
           />
@@ -45,7 +39,6 @@ function VenueFields({
         <div className="space-y-1.5">
           <Label className="text-xs">Telefoonnummer locatie</Label>
           <Input
-            placeholder="0314-123456"
             value={venue.phone || ""}
             onChange={(e) => onChange({ ...venue, phone: e.target.value })}
           />
@@ -91,36 +84,31 @@ export function LocationSection({ config, onChange }: LocationSectionProps) {
           label="Startlocatie"
           venue={config.location.startLocation}
           onChange={(v) => updateLocation("startLocation", v)}
-          required
         />
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="publication-time">
-              Uitreiking routeboek <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="publication-time">Uitreiking routeboek</Label>
+            <p className="text-xs text-muted-foreground">
+              Tijdstip waarop deelnemers hun routeboek ontvangen.
+            </p>
             <Input
               id="publication-time"
               type="time"
               value={config.location.publicationTime}
               onChange={(e) => updateLocation("publicationTime", e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Tijdstip waarop deelnemers hun routeboek ontvangen.
-            </p>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="start-time">
-              Starttijd eerste equipe <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="start-time">Starttijd eerste equipe</Label>
+            <p className="text-xs text-muted-foreground">
+              Vertrektijd van de eerste deelnemer.
+            </p>
             <Input
               id="start-time"
               type="time"
               value={config.location.startTime}
               onChange={(e) => updateLocation("startTime", e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Vertrektijd van de eerste deelnemer.
-            </p>
           </div>
         </div>
       </div>
@@ -158,15 +146,15 @@ export function LocationSection({ config, onChange }: LocationSectionProps) {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="finish-time">Verwachte finishtijd</Label>
+            <p className="text-xs text-muted-foreground">
+              Verwachte aankomsttijd van de eerste finisher.
+            </p>
             <Input
               id="finish-time"
               type="time"
               value={config.location.finishTime}
               onChange={(e) => updateLocation("finishTime", e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Verwachte aankomsttijd van de eerste finisher.
-            </p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="prize-time">Prijsuitreiking</Label>
@@ -176,9 +164,6 @@ export function LocationSection({ config, onChange }: LocationSectionProps) {
               value={config.location.prizeTime}
               onChange={(e) => updateLocation("prizeTime", e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Tijdstip van de prijsuitreiking.
-            </p>
           </div>
         </div>
       </div>
@@ -195,15 +180,15 @@ export function LocationSection({ config, onChange }: LocationSectionProps) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="results-date">Publicatie einduitslag</Label>
+          <p className="text-xs text-muted-foreground">
+            Uiterlijke datum waarop de definitieve uitslag op de website staat.
+          </p>
           <Input
             id="results-date"
             type="date"
             value={config.location.onlineResultsDate}
             onChange={(e) => updateLocation("onlineResultsDate", e.target.value)}
           />
-          <p className="text-xs text-muted-foreground">
-            Uiterlijke datum waarop de definitieve uitslag op de website staat.
-          </p>
         </div>
       </div>
     </div>

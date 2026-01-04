@@ -63,9 +63,7 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="reg-open">
-              Opening inschrijving <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="reg-open">Opening inschrijving</Label>
             <Input
               id="reg-open"
               type="date"
@@ -74,9 +72,7 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="reg-close">
-              Sluiting inschrijving <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="reg-close">Sluiting inschrijving</Label>
             <Input
               id="reg-close"
               type="date"
@@ -92,9 +88,6 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
               value={config.registration.publicationDate}
               onChange={(e) => updateReg("publicationDate", e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Wanneer wordt het reglement gepubliceerd?
-            </p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="reg-acceptance">Acceptatieberichten</Label>
@@ -104,22 +97,18 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
               value={config.registration.acceptanceDate}
               onChange={(e) => updateReg("acceptanceDate", e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Wanneer ontvangen deelnemers bericht van acceptatie?
-            </p>
           </div>
         </div>
         <div className="space-y-2">
           <Label htmlFor="doc-check">Documentencontrole</Label>
-          <Input
-            id="doc-check"
-            placeholder="bijv. 25 mei 2025, 09:00-10:00 uur"
-            value={config.registration.documentCheckDate}
-            onChange={(e) => updateReg("documentCheckDate", e.target.value)}
-          />
           <p className="text-xs text-muted-foreground">
             Datum en tijd waarop rijbewijzen en kentekenpapieren worden gecontroleerd.
           </p>
+          <Input
+            id="doc-check"
+            value={config.registration.documentCheckDate}
+            onChange={(e) => updateReg("documentCheckDate", e.target.value)}
+          />
         </div>
       </div>
 
@@ -135,26 +124,20 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="reg-fee">
-              Inschrijfgeld (€) <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="reg-fee">Inschrijfgeld (€)</Label>
             <Input
               id="reg-fee"
               type="number"
               min="0"
               step="5"
-              placeholder="bijv. 75"
               value={config.registration.fee || ""}
               onChange={(e) => updateReg("fee", Number(e.target.value))}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="reg-iban">
-              IBAN <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="reg-iban">IBAN</Label>
             <Input
               id="reg-iban"
-              placeholder="NL00BANK0123456789"
               value={config.registration.iban}
               onChange={(e) => updateReg("iban", e.target.value)}
             />
@@ -166,13 +149,9 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
             id="max-participants"
             type="number"
             min="0"
-            placeholder="bijv. 80"
             value={config.registration.maxParticipants || ""}
             onChange={(e) => updateReg("maxParticipants", Number(e.target.value))}
           />
-          <p className="text-xs text-muted-foreground">
-            Laat leeg als er geen maximum is.
-          </p>
         </div>
       </div>
 
@@ -206,15 +185,14 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
           {config.registration.allowModernVehicles && (
             <div className="ml-10 space-y-2">
               <Label htmlFor="modern-categories">Toegestane categorieën</Label>
-              <Input
-                id="modern-categories"
-                placeholder="bijv. Youngtimers (15-30 jaar)"
-                value={config.registration.modernVehicleCategories}
-                onChange={(e) => updateReg("modernVehicleCategories", e.target.value)}
-              />
               <p className="text-xs text-muted-foreground">
                 Beschrijf welke moderne voertuigen zijn toegestaan.
               </p>
+              <Input
+                id="modern-categories"
+                value={config.registration.modernVehicleCategories}
+                onChange={(e) => updateReg("modernVehicleCategories", e.target.value)}
+              />
             </div>
           )}
         </div>
@@ -255,7 +233,6 @@ export function RegistrationSection({ config, onChange }: RegistrationSectionPro
                   id="team-cost"
                   type="number"
                   min="0"
-                  placeholder="0 = gratis"
                   value={config.registration.teamRegistration.cost || ""}
                   onChange={(e) => updateTeamReg("cost", Number(e.target.value))}
                 />

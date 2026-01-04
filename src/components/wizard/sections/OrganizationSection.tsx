@@ -15,24 +15,19 @@ function ContactFields({
   contact,
   onChange,
   showEmail = false,
-  required = false,
 }: {
   label: string;
   contact: ContactInfo;
   onChange: (contact: ContactInfo) => void;
   showEmail?: boolean;
-  required?: boolean;
 }) {
   return (
     <div className="space-y-3 rounded-lg border bg-muted/30 p-4">
-      <h4 className="font-medium">
-        {label} {required && <span className="text-destructive">*</span>}
-      </h4>
+      <h4 className="font-medium">{label}</h4>
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label className="text-xs">Naam</Label>
           <Input
-            placeholder="Naam"
             value={contact.name}
             onChange={(e) => onChange({ ...contact, name: e.target.value })}
           />
@@ -40,7 +35,6 @@ function ContactFields({
         <div className="space-y-1.5">
           <Label className="text-xs">Telefoon</Label>
           <Input
-            placeholder="06-12345678"
             value={contact.phone || ""}
             onChange={(e) => onChange({ ...contact, phone: e.target.value })}
           />
@@ -50,7 +44,6 @@ function ContactFields({
             <Label className="text-xs">E-mail</Label>
             <Input
               type="email"
-              placeholder="email@voorbeeld.nl"
               value={contact.email || ""}
               onChange={(e) => onChange({ ...contact, email: e.target.value })}
             />
@@ -65,12 +58,10 @@ function ListInput({
   label,
   items,
   onChange,
-  placeholder,
 }: {
   label: string;
   items: string[];
   onChange: (items: string[]) => void;
-  placeholder: string;
 }) {
   const addItem = () => onChange([...items, ""]);
   const removeItem = (index: number) => onChange(items.filter((_, i) => i !== index));
@@ -93,7 +84,6 @@ function ListInput({
             // biome-ignore lint/suspicious/noArrayIndexKey: items are simple strings without unique IDs
             <div key={index} className="flex gap-2">
               <Input
-                placeholder={placeholder}
                 value={item}
                 onChange={(e) => updateItem(index, e.target.value)}
               />
@@ -150,7 +140,6 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
           contact={config.organization.secretary}
           onChange={(c) => updateOrg("secretary", c)}
           showEmail
-          required
         />
       </div>
 
@@ -168,7 +157,6 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
           <Label htmlFor="chairman">Voorzitter</Label>
           <Input
             id="chairman"
-            placeholder="Naam voorzitter"
             value={config.organization.chairman}
             onChange={(e) => updateOrg("chairman", e.target.value)}
           />
@@ -177,7 +165,6 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
           label="Commissieleden"
           items={config.organization.committeeMembers}
           onChange={(items) => updateOrg("committeeMembers", items)}
-          placeholder="Naam commissielid"
         />
       </div>
 
@@ -196,13 +183,11 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
             label="Uitzetter(s)"
             items={config.organization.routeSetters}
             onChange={(items) => updateOrg("routeSetters", items)}
-            placeholder="Naam uitzetter"
           />
           <ListInput
             label="Narijder(s)"
             items={config.organization.routeCheckers}
             onChange={(items) => updateOrg("routeCheckers", items)}
-            placeholder="Naam narijder"
           />
         </div>
       </div>
@@ -222,13 +207,11 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
             label="Wedstrijdleider"
             contact={config.organization.raceDirector}
             onChange={(c) => updateOrg("raceDirector", c)}
-            required
           />
           <ContactFields
             label="Hoofd Calamiteitenteam"
             contact={config.organization.emergencyHead}
             onChange={(c) => updateOrg("emergencyHead", c)}
-            required
           />
           <ContactFields
             label="Contactpersoon tijdens rit"
@@ -236,14 +219,11 @@ export function OrganizationSection({ config, onChange }: OrganizationSectionPro
             onChange={(c) => updateOrg("contactPerson", c)}
           />
           <ContactFields
-            label="Serviceteam (optioneel)"
+            label="Serviceteam"
             contact={config.organization.serviceTeam || { name: "", phone: "" }}
             onChange={(c) => updateOrg("serviceTeam", c)}
           />
         </div>
-        <p className="text-xs text-muted-foreground">
-          Het serviceteam kan deelnemers met pech onderweg helpen. Laat leeg als er geen serviceteam is.
-        </p>
       </div>
     </div>
   );

@@ -184,30 +184,34 @@ export function NavigationSystemsSection({ config, onChange }: NavigationSystems
           >
             {ns.pijlenKleurbeperking.enabled && (
               <div className="space-y-2 text-xs">
-                <input
-                  type="text"
-                  placeholder="Kleur onder pijl"
-                  value={ns.pijlenKleurbeperking.color1}
-                  onChange={(e) =>
-                    updateNS("pijlenKleurbeperking", {
-                      ...ns.pijlenKleurbeperking,
-                      color1: e.target.value,
-                    })
-                  }
-                  className="w-full rounded border px-2 py-1"
-                />
-                <input
-                  type="text"
-                  placeholder="Te vermijden kleur"
-                  value={ns.pijlenKleurbeperking.color2}
-                  onChange={(e) =>
-                    updateNS("pijlenKleurbeperking", {
-                      ...ns.pijlenKleurbeperking,
-                      color2: e.target.value,
-                    })
-                  }
-                  className="w-full rounded border px-2 py-1"
-                />
+                <div>
+                  <span className="text-muted-foreground">Kleur onder pijl</span>
+                  <input
+                    type="text"
+                    value={ns.pijlenKleurbeperking.color1}
+                    onChange={(e) =>
+                      updateNS("pijlenKleurbeperking", {
+                        ...ns.pijlenKleurbeperking,
+                        color1: e.target.value,
+                      })
+                    }
+                    className="w-full rounded border px-2 py-1"
+                  />
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Te vermijden kleur</span>
+                  <input
+                    type="text"
+                    value={ns.pijlenKleurbeperking.color2}
+                    onChange={(e) =>
+                      updateNS("pijlenKleurbeperking", {
+                        ...ns.pijlenKleurbeperking,
+                        color2: e.target.value,
+                      })
+                    }
+                    className="w-full rounded border px-2 py-1"
+                  />
+                </div>
               </div>
             )}
           </SelectableCard>

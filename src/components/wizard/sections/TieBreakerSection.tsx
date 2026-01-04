@@ -63,16 +63,15 @@ export function TieBreakerSection({ config, onChange }: TieBreakerSectionProps) 
           <div className="ml-4 border-l-2 border-primary/30 pl-4">
             <div className="space-y-2">
               <Label htmlFor="control-name">Naam/nummer van de ex-aequo controle</Label>
-              <Input
-                id="control-name"
-                placeholder="bijv. RC12 of 'De Molen'"
-                value={config.tieBreaker.controlName}
-                onChange={(e) => updateTieBreaker("controlName", e.target.value)}
-              />
               <p className="text-xs text-muted-foreground">
                 Deze specifieke controle wordt gebruikt als beslissende factor. De equipe met de
                 minste strafpunten op deze controle wint.
               </p>
+              <Input
+                id="control-name"
+                value={config.tieBreaker.controlName}
+                onChange={(e) => updateTieBreaker("controlName", e.target.value)}
+              />
             </div>
           </div>
         )}
